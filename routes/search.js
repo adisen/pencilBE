@@ -10,30 +10,34 @@ router.get('/', async (req, res) => {
   try {
     const topics = await Topic.findById(query)
     const subtree = [...topics.children, query]
+    const questionNumbers = []
 
-    mongoose.connection.db
-      .collection('questions')
-      .aggregate([
-        { $match: { annotations: { $in: subtree } } },
-        {
-          $project: {
-            tagMatch: {
+    const result = mongoose.connection.db.collection('questions').aggregate([
+      { $match: { annotations: { $in: subtree } } },
+      {
+        $project: {
+          tagMatch: {
+            $setIntersection: ['$annotations', subtree]
+          },
+          sizeMatch: {
+            $size: {
               $setIntersection: ['$annotations', subtree]
-            },
-            sizeMatch: {
-              $size: {
-                $setIntersection: ['$annotations', subtree]
-              }
             }
           }
-        },
-        { $match: { sizeMatch: { $gte: 1 } } },
-        { $project: { tagMatch: 1 } }
-      ])
-      .toArray((err, result) => {
-        if (err) throw err
-        res.json(result)
+        }
+      },
+      { $match: { sizeMatch: { $gte: 1 } } },
+      { $project: { tagMatch: 1 } }
+    ])
+
+    result.toArray((err, results) => {
+      if (err) throw err
+      results.forEach(result => {
+        questionNumbers.push(result._id)
       })
+
+      res.send(questionNumbers)
+    })
   } catch (error) {
     console.log(error)
     res.status(500).send('Server Error')
