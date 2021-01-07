@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
       ])
       .toArray((err, result) => {
         if (err) throw err
-        res.send(result)
+        res.json(result)
       })
   } catch (error) {
     console.log(error)
