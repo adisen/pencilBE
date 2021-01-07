@@ -2,9 +2,9 @@
 
 This project was implemented using NodeJS, ExpressJS and MongoDB with Mongoose.
 
-Projected is hosted and can be reached at [](https://pencilbe.herokuapp.com)
+Projected is hosted and can be reached at [Link](https://pencilbe.herokuapp.com)
 
-To search fro Questions make a query, with a query parameter [](https://pencilbe.herokuapp.com/api/search?query=Cell Structure and Organisation
+To search fro Questions make a query, with a query parameter [https://pencilbe.herokuapp.com/api/search?query=Cell%20Structure%20and%20Organisation] (https://pencilbe.herokuapp.com/api/search?query=Cell%20Structure%20and%20Organisation
 )
 
 Example response: 
